@@ -5205,13 +5205,6 @@
     <!-- ══════════════ BANNER ══════════════ -->
     <div class="banner">
       <div class="brand">
-        <!-- Drop "breakers-logo.png" (or .svg) beside this file and it appears here. -->
-        <img
-          class="logo"
-          id="logo"
-          src="breakers-logo.png"
-          alt="SPRINZ Run Club"
-        />
         <div>
           <div class="wordmark"><b>SPRINZ</b> Run Club</div>
           <div class="tagline">Interval/Threshold Running</div>
@@ -6301,11 +6294,6 @@
           }
         } catch (e) {}
 
-        /* Logo: show the monogram only if the image file isn't there. */
-        const logo = $("#logo");
-        logo.addEventListener("error", () => {
-          logo.style.display = "none";
-        });
 
         const esc = (s) =>
           s.replace(
