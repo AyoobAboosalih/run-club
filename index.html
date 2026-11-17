@@ -1,0 +1,1861 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SPRINZ Run Club</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Palette sampled from the SPRINZ brand files:
+     olive #645C40 · khaki #A49C70 · gold #AF9A60 · pale taupe #D0C8B4 */
+      :root {
+        --ink: #0f0d08;
+        --panel: #1b1812;
+        --panel-2: #26231a;
+        --navy: #645c40; /* brand dark olive */
+        --blue: #af9a60; /* brand gold */
+        --blue-hot: #d0c8b4; /* brand pale taupe (highlights) */
+        --grey: #a8a38e;
+        --grey-dim: #7d7860;
+        --line: rgba(255, 255, 255, 0.1);
+        --white: #ffffff;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background:
+          radial-gradient(
+            1200px 700px at 12% -10%,
+            rgba(175, 154, 96, 0.2),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 600px at 92% 110%,
+            rgba(100, 92, 64, 0.55),
+            transparent 60%
+          ),
+          var(--ink);
+        color: var(--white);
+        font-family: "Inter", system-ui, sans-serif;
+        padding: 1.4vh 1.6vw;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      /* ── Banner ─────────────────────────────── */
+      .banner {
+        flex: 0 0 auto;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2vw;
+        padding: 1.1vh 1.6vw;
+        border-radius: 12px;
+        margin-bottom: 1vh;
+        background:
+          linear-gradient(
+            100deg,
+            rgba(175, 154, 96, 0.3) 0%,
+            rgba(100, 92, 64, 0.6) 42%,
+            rgba(27, 24, 18, 0.92) 100%
+          ),
+          var(--panel);
+        border: 1px solid rgba(208, 200, 180, 0.28);
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+      }
+      .banner::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          115deg,
+          rgba(255, 255, 255, 0.045) 0 2px,
+          transparent 2px 26px
+        );
+      }
+      .banner::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--blue-hot) 0%,
+          var(--blue) 26%,
+          var(--navy) 48%,
+          transparent 78%
+        );
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 1.2vw;
+        min-width: 0;
+        position: relative;
+      }
+
+      /* Logo slot: drop breakers-logo.png (or .svg) next to this file.
+     If absent, the monogram below shows instead. */
+      .logo {
+        height: clamp(44px, 5vw, 96px);
+        width: auto;
+        max-width: 20vw;
+        object-fit: contain;
+        display: block;
+        filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.55));
+      }
+      .mark {
+        width: clamp(44px, 5vw, 96px);
+        aspect-ratio: 1;
+        flex: 0 0 auto;
+        border-radius: 12px;
+        display: none;
+        place-items: center;
+        background: linear-gradient(150deg, var(--blue) 0%, var(--navy) 100%);
+        box-shadow:
+          0 0 0 1px rgba(208, 200, 180, 0.45),
+          0 10px 30px rgba(175, 154, 96, 0.28);
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: clamp(22px, 2.4vw, 46px);
+        letter-spacing: 0.02em;
+      }
+      .mark.show {
+        display: grid;
+      }
+
+      .wordmark {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: clamp(28px, 3.5vw, 72px);
+        line-height: 0.92;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .wordmark b {
+        color: var(--blue-hot);
+        font-weight: 700;
+      }
+      .tagline {
+        font-size: clamp(9px, 0.72vw, 14px);
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: var(--grey);
+        font-weight: 600;
+        margin-top: 0.4vh;
+      }
+
+      .banner-right {
+        display: flex;
+        align-items: center;
+        gap: 1.4vw;
+        position: relative;
+        flex: 0 0 auto;
+      }
+      .chip {
+        padding: 0.6vh 1.1vw;
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line);
+        text-align: center;
+        line-height: 1.15;
+      }
+      .chip b {
+        display: block;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: clamp(16px, 1.6vw, 32px);
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+      .chip small {
+        display: block;
+        font-size: clamp(8px, 0.6vw, 12px);
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--grey-dim);
+        font-weight: 600;
+        margin-top: 0.2vh;
+      }
+
+      /* ── Big clock ──────────────────────────── */
+      .clock {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        line-height: 1;
+        padding-left: 1.2vw;
+        border-left: 1px solid rgba(255, 255, 255, 0.14);
+      }
+      #clock {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: clamp(40px, 5.4vw, 116px);
+        line-height: 0.86;
+        letter-spacing: 0.01em;
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: "tnum" 1;
+        color: var(--white);
+        text-shadow:
+          0 0 26px rgba(208, 200, 180, 0.45),
+          0 4px 18px rgba(0, 0, 0, 0.6);
+      }
+      .clock small {
+        font-size: clamp(8px, 0.62vw, 13px);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--grey-dim);
+        font-weight: 600;
+        margin-top: 0.3vh;
+      }
+
+      /* ── Tabs ───────────────────────────────── */
+      nav {
+        display: flex;
+        gap: 0.6vw;
+        flex: 0 0 auto;
+        margin-bottom: 1vh;
+      }
+      .tab {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        font-size: clamp(14px, 1.3vw, 27px);
+        line-height: 1;
+        padding: 0.8vh 1.9vw;
+        border-radius: 9px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+        color: var(--grey);
+        transition:
+          background 0.18s ease,
+          color 0.18s ease,
+          box-shadow 0.18s ease;
+        display: flex;
+        align-items: baseline;
+        gap: 0.55vw;
+      }
+      .tab i {
+        font-style: normal;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: clamp(8px, 0.6vw, 12px);
+        letter-spacing: 0.18em;
+        color: var(--grey-dim);
+      }
+      .tab:hover {
+        color: var(--white);
+        background: rgba(255, 255, 255, 0.07);
+      }
+      .tab[aria-selected="true"] {
+        background: linear-gradient(150deg, var(--blue) 0%, var(--navy) 120%);
+        color: var(--white);
+        border-color: rgba(208, 200, 180, 0.55);
+        box-shadow: 0 8px 22px rgba(175, 154, 96, 0.3);
+      }
+      .tab[aria-selected="true"] i {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      /* ── Layout ─────────────────────────────── */
+      main {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+      }
+      .day {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: none;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.4vw;
+      }
+      .day.active {
+        display: grid;
+      }
+      /* Three-group layout (Day 4) */
+      .day.trio {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1vw;
+      }
+      .day.trio .col-head h2 {
+        font-size: clamp(16px, 1.6vw, 32px);
+      }
+      .day.trio .col-head em {
+        font-size: clamp(8px, 0.58vw, 12px);
+        letter-spacing: 0.18em;
+      }
+      .day.trio tbody td {
+        font-size: clamp(11px, 0.92vw, 20px);
+        padding: 0.5vh 0.8vw;
+      }
+      .day.trio td.dose {
+        font-size: clamp(12px, 1.05vw, 24px);
+      }
+      .day.trio td.wt {
+        font-size: clamp(11px, 0.92vw, 20px);
+      }
+      .day.trio thead th {
+        padding: 0.4vh 0.8vw;
+      }
+      .day.trio thead th:nth-child(2) {
+        width: 30%;
+      }
+      .day.trio thead th:nth-child(3) {
+        width: 22%;
+      }
+      .day.trio .block-tag {
+        padding: 0.45vh 0.8vw;
+      }
+      .day.trio .block-tag h3 {
+        font-size: clamp(11px, 0.95vw, 19px);
+      }
+      .day.trio .rest {
+        font-size: clamp(8px, 0.6vw, 12px);
+      }
+      /* Single-group layout (Day 5) — centred, larger type */
+      .day.solo {
+        grid-template-columns: minmax(0, 54vw);
+        justify-content: center;
+      }
+      .day.solo .col-head h2 {
+        font-size: clamp(20px, 2.1vw, 42px);
+      }
+      .day.solo tbody td {
+        font-size: clamp(14px, 1.35vw, 32px);
+        padding: 0.8vh 1.2vw;
+      }
+      .day.solo td.dose {
+        font-size: clamp(16px, 1.6vw, 38px);
+      }
+      .day.solo td.wt {
+        font-size: clamp(14px, 1.4vw, 32px);
+      }
+      .day.solo .block-tag h3 {
+        font-size: clamp(13px, 1.2vw, 25px);
+      }
+      .day.solo .rest {
+        font-size: clamp(10px, 0.8vw, 16px);
+      }
+      .day.solo thead th {
+        font-size: clamp(9px, 0.68vw, 14px);
+      }
+
+      /* Player-name column headers */
+      .col-head.player {
+        background: linear-gradient(
+          90deg,
+          rgba(208, 200, 180, 0.34),
+          rgba(100, 92, 64, 0.16) 60%,
+          transparent
+        );
+      }
+      .note {
+        flex: 0 0 auto;
+        margin-top: 0.2vh;
+        padding: 0.7vh 1vw;
+        border-radius: 9px;
+        background: rgba(175, 154, 96, 0.14);
+        border: 1px solid rgba(208, 200, 180, 0.34);
+        border-left: 4px solid var(--blue-hot);
+        font-size: clamp(10px, 0.85vw, 18px);
+        font-weight: 600;
+        line-height: 1.3;
+        color: var(--white);
+      }
+      .note b {
+        display: block;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--blue-hot);
+        font-size: clamp(8px, 0.6vw, 12px);
+        margin-bottom: 0.2vh;
+      }
+      .col {
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+        min-height: 0;
+      }
+      .day > .col .blocks {
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--blue) transparent;
+      }
+      .day > .col .blocks::-webkit-scrollbar {
+        width: 6px;
+      }
+      .day > .col .blocks::-webkit-scrollbar-thumb {
+        background: var(--blue);
+        border-radius: 3px;
+      }
+      .day > .col .block {
+        flex: 1 0 auto;
+        overflow: visible;
+      }
+      .col-head {
+        display: flex;
+        align-items: center;
+        gap: 0.8vw;
+        flex: 0 0 auto;
+        padding: 0.8vh 1.1vw;
+        border-radius: 9px;
+        background: linear-gradient(
+          90deg,
+          rgba(175, 154, 96, 0.3),
+          rgba(100, 92, 64, 0.14) 60%,
+          transparent
+        );
+        border-left: 5px solid var(--blue-hot);
+      }
+      .col-head h2 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: clamp(18px, 1.85vw, 37px);
+        letter-spacing: 0.05em;
+        line-height: 1;
+      }
+      .col-head em {
+        margin-left: auto;
+        font-style: normal;
+        font-size: clamp(9px, 0.66vw, 13px);
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        color: var(--grey);
+        font-weight: 600;
+      }
+      .blocks {
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+
+      /* ── Block ──────────────────────────────── */
+      .block {
+        background: linear-gradient(180deg, var(--panel-2), var(--panel));
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+      }
+      .block.tight {
+        flex: 0 0 auto;
+      }
+      .block-tag {
+        display: flex;
+        align-items: center;
+        gap: 0.6vw;
+        padding: 0.5vh 1vw;
+        background: rgba(100, 92, 64, 0.55);
+        border-bottom: 1px solid rgba(208, 200, 180, 0.3);
+      }
+      .num {
+        width: clamp(17px, 1.35vw, 26px);
+        aspect-ratio: 1;
+        border-radius: 5px;
+        flex: 0 0 auto;
+        background: var(--blue);
+        color: #0f0d08;
+        display: grid;
+        place-items: center;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: clamp(11px, 0.9vw, 18px);
+      }
+      .block-tag h3 {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: clamp(12px, 1.05vw, 21px);
+        letter-spacing: 0.13em;
+        color: var(--white);
+      }
+      .rest {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.4vw;
+        font-size: clamp(9px, 0.7vw, 14px);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--blue-hot);
+      }
+      .rest .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--blue-hot);
+        box-shadow: 0 0 8px var(--blue-hot);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        flex: 1 1 auto;
+      }
+      thead th {
+        font-size: clamp(8px, 0.6vw, 12px);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--grey-dim);
+        font-weight: 700;
+        text-align: left;
+        padding: 0.45vh 1vw;
+        background: rgba(255, 255, 255, 0.035);
+        border-bottom: 1px solid var(--line);
+      }
+      thead th:nth-child(2) {
+        text-align: center;
+        width: 28%;
+      }
+      thead th:nth-child(3) {
+        text-align: center;
+        width: 18%;
+      }
+      tbody td {
+        padding: 0.55vh 1vw;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+        font-size: clamp(12px, 1.08vw, 24px);
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+      tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.022);
+      }
+      td.dose {
+        text-align: center;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 700;
+        font-size: clamp(14px, 1.26vw, 29px);
+        color: var(--blue-hot);
+        letter-spacing: 0.02em;
+      }
+      td.wt {
+        text-align: center;
+        color: var(--grey-dim);
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 600;
+        font-size: clamp(13px, 1.16vw, 26px);
+      }
+
+      footer {
+        flex: 0 0 auto;
+        margin-top: 0.9vh;
+        padding-top: 0.7vh;
+        border-top: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: clamp(8px, 0.62vw, 12px);
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--grey-dim);
+        font-weight: 600;
+      }
+      footer .stripe {
+        display: flex;
+        gap: 5px;
+      }
+      footer .stripe i {
+        width: 26px;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--grey-dim);
+      }
+      footer .stripe i:nth-child(1) {
+        background: var(--blue-hot);
+      }
+      footer .stripe i:nth-child(2) {
+        background: var(--blue);
+      }
+      footer .stripe i:nth-child(3) {
+        background: var(--navy);
+      }
+
+      @media (max-width: 900px) {
+        body {
+          overflow: auto;
+          height: auto;
+        }
+        .day.active {
+          grid-template-columns: 1fr;
+        }
+        .wordmark {
+          white-space: normal;
+        }
+        .banner {
+          flex-wrap: wrap;
+          gap: 1.2vh;
+        }
+      }
+
+
+      /* ── Exercise demo videos (Gym Accessories) ── */
+      .day[data-day="5"] td.ex-video {
+        cursor: pointer;
+      }
+      .day[data-day="5"] td.ex-video:hover {
+        color: var(--blue-hot);
+      }
+      .day[data-day="5"] td.ex-video::after {
+        content: "▶";
+        margin-left: 0.6em;
+        font-size: 0.68em;
+        color: var(--blue);
+        vertical-align: middle;
+      }
+      .video-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .video-modal[hidden] {
+        display: none;
+      }
+      .video-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.78);
+      }
+      .video-modal-body {
+        position: relative;
+        width: min(92vw, 960px);
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+      }
+      .video-modal-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 2;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        font-size: 16px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .video-modal-close:hover {
+        background: var(--blue);
+      }
+      .video-modal-frame {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+      }
+      .video-modal-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════ BANNER ══════════════ -->
+    <div class="banner">
+      <div class="brand">
+        <!-- Drop "breakers-logo.png" (or .svg) beside this file and it appears here. -->
+        <img
+          class="logo"
+          id="logo"
+          src="breakers-logo.png"
+          alt="SPRINZ Run Club"
+        />
+        <div>
+          <div class="wordmark"><b>SPRINZ</b> Run Club</div>
+          <div class="tagline">Interval/Threshold Running</div>
+        </div>
+      </div>
+
+      <div class="banner-right">
+        <div class="chip"><b id="dayDate">—</b><small>Date</small></div>
+        <div class="chip"><b id="dayFocus">Gym</b><small>Session</small></div>
+        <div class="clock">
+          <span id="clock">04:13 PM</span>
+          <small id="clockDay">Tuesday</small>
+        </div>
+      </div>
+    </div>
+
+    <nav role="tablist">
+      <button
+        class="tab"
+        role="tab"
+        aria-selected="false"
+        data-day="1"
+        data-date=""
+        data-focus="Week 1"
+        data-foot=""
+      >
+        Week 1 <i></i>
+      </button>
+      <button
+        class="tab"
+        role="tab"
+        aria-selected="false"
+        data-day="2"
+        data-date=""
+        data-focus="Week 2"
+        data-foot=""
+      >
+        Week 2 <i> </i></button
+      ><button
+        class="tab"
+        role="tab"
+        aria-selected="false"
+        data-day="3"
+        data-date=""
+        data-focus="Week 3"
+        data-foot=""
+      >
+        Week 3 <i></i></button
+      ><button
+        class="tab"
+        role="tab"
+        aria-selected="false"
+        data-day="4"
+        data-date=""
+        data-focus="Week 4"
+        data-foot=""
+      >
+        Week 4 <i></i></button
+      ><button
+        class="tab"
+        role="tab"
+        aria-selected="true"
+        data-day="5"
+        data-date=""
+        data-focus="Gym"
+        data-foot=""
+        style="margin-left: auto"
+      >
+        Gym Accessories <i></i>
+      </button>
+    </nav>
+    <main>
+      <!-- ══════════════ DAY 1 ══════════════ -->
+      <div class="day" data-day="1">
+        <section class="col">
+          <div class="col-head">
+            <h2>Warm up</h2>
+            <em><br /></em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Prep</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Time</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1 Lap Jog</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Split Stance Heel Hover Iso</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">Each Side</td>
+                  </tr>
+                  <tr>
+                    <td>Hamstring Bridge</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">2</span>
+                <h3>Dynamic Stretches</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Knee hugs</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Ankle Sweeps</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Twist</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Reach</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">3</span>
+                <h3>PLyos (2 sets each)</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Pogo Hops</td>
+                    <td class="dose">20</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Pogo Jumps</td>
+                    <td class="dose">10</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>High Knees</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Butt Kicks (Knees up)</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds&nbsp;</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Frequency</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Length</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="col">
+          <div class="col-head">
+            <h2>Main set</h2>
+            <em>Day 1</em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Intervals (2 sets)</h3>
+                <span class="rest"
+                  ><span class="dot"></span
+                  ><span class="rt">Rest 3 min · Between Rounds</span></span
+                >
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Work : Rest</th>
+                    <th>Rounds</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Moderate&nbsp;- High Intensity pace</td>
+                    <td class="dose">2 min : 1 min</td>
+                    <td class="wt">3</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══════════════ DAY 2 ══════════════ -->
+
+      <!-- ══════════════ DAY 3 ══════════════ -->
+
+      <!-- ══════════════ DAY 4 ══════════════ -->
+
+      <!-- ══════════════ DAY 5 ══════════════ -->
+
+      <!-- ══════════════ DAY 6 ══════════════ -->
+      <div class="day" data-day="2">
+        <section class="col">
+          <div class="col-head">
+            <h2>Warm up</h2>
+            <em><br /></em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Prep</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Time</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1 Lap Jog</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Split Stance Heel Hover Iso</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">Each Side</td>
+                  </tr>
+                  <tr>
+                    <td>Hamstring Bridge</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">2</span>
+                <h3>Dynamic Stretches</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Knee hugs</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Ankle Sweeps</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Twist</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Reach</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">3</span>
+                <h3>PLyos (2 sets each)</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Pogo Hops</td>
+                    <td class="dose">20</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Pogo Jumps</td>
+                    <td class="dose">10</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>High Knees</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Butt Kicks (Knees up)</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds&nbsp;</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Frequency</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Length</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="col">
+          <div class="col-head">
+            <h2>Main set</h2>
+            <em>Day 1</em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Intervals (2 sets)</h3>
+                <span class="rest"
+                  ><span class="dot"></span
+                  ><span class="rt">Rest 3 min · Between Rounds</span></span
+                >
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Work : Rest</th>
+                    <th>Rounds</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Moderate&nbsp;- High Intensity pace</td>
+                    <td class="dose">2 min : 45 sec</td>
+                    <td class="wt">3</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="day" data-day="3">
+        <section class="col">
+          <div class="col-head">
+            <h2>Warm up</h2>
+            <em><br /></em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Prep</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Time</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1 Lap Jog</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Split Stance Heel Hover Iso</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">Each Side</td>
+                  </tr>
+                  <tr>
+                    <td>Hamstring Bridge</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">2</span>
+                <h3>Dynamic Stretches</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Knee hugs</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Ankle Sweeps</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Twist</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Reach</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">3</span>
+                <h3>PLyos (2 sets each)</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Pogo Hops</td>
+                    <td class="dose">20</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Pogo Jumps</td>
+                    <td class="dose">10</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>High Knees</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Butt Kicks (Knees up)</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds&nbsp;</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Frequency</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Length</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="col">
+          <div class="col-head">
+            <h2>Main set</h2>
+            <em>Day 1</em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Intervals (2 sets)</h3>
+                <span class="rest"
+                  ><span class="dot"></span
+                  ><span class="rt">Rest 3 min · Between Rounds</span></span
+                >
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Work : Rest</th>
+                    <th>Rounds</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Moderate&nbsp;- High Intensity pace</td>
+                    <td class="dose">2 min : 30 sec</td>
+                    <td class="wt">3</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="day" data-day="4">
+        <section class="col">
+          <div class="col-head">
+            <h2>Warm up</h2>
+            <em><br /></em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Prep</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Time</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1 Lap Jog</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Split Stance Heel Hover Iso</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">Each Side</td>
+                  </tr>
+                  <tr>
+                    <td>Hamstring Bridge</td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">2</span>
+                <h3>Dynamic Stretches</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Knee hugs</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Ankle Sweeps</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Twist</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Lunge &amp; Reach</td>
+                    <td class="dose"><br /></td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">3</span>
+                <h3>PLyos (2 sets each)</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Pogo Hops</td>
+                    <td class="dose">20</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Pogo Jumps</td>
+                    <td class="dose">10</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>High Knees</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Butt Kicks (Knees up)</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds&nbsp;</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Frequency</td>
+                  </tr>
+                  <tr>
+                    <td>Straight Leg Bounds</td>
+                    <td class="dose">1 Length</td>
+                    <td class="wt">For Length</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="col">
+          <div class="col-head">
+            <h2>Main set</h2>
+            <em>Day 1</em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Partner Intervals</h3>
+                <span class="rest"
+                  ><span class="dot"></span
+                  ><span class="rt">Rest 3 min · Between Rounds</span></span
+                >
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Work : Rest</th>
+                    <th>Rounds</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>In Teams of 2 (You go I go)</td>
+                    <td class="dose">400m</td>
+                    <td class="wt">5</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="day active" data-day="5">
+        <section class="col">
+          <div class="col-head">
+            <h2>Tendon TLC</h2>
+            <em><br /></em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Ankle</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Time</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ex-video" data-yt="y4QWg5-lqBo">
+                      Power Position Iso
+                    </td>
+                    <td class="dose">3 x 3 secs</td>
+                    <td class="wt">3 reps per set</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="fUy6nQYl_oE">
+                      SL Standing Iso
+                    </td>
+                    <td class="dose">30 sec</td>
+                    <td class="wt">Each Side</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">2</span>
+                <h3>Knee</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ex-video" data-yt="mik90mAS6fU">
+                      Spanish Squat
+                    </td>
+                    <td class="dose">30 secs</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="bi7mmkPuboc">
+                      SL Leg Extension
+                    </td>
+                    <td class="dose">30 secs</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">3</span>
+                <h3>Hips</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ex-video" data-yt="GtnSaENGhBw">
+                      Side Plank with Abduction
+                    </td>
+                    <td class="dose">20 secs</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="eDLtJ1w7yL0">
+                      Copenhagen Tuck&nbsp;
+                    </td>
+                    <td class="dose">20 - 30 secs</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="GqVK-IKtZaU">
+                      Glute Bridge with Knee Drive
+                    </td>
+                    <td class="dose">30 secs</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="b8gAQOtLV3Q">
+                      Hamstring Bridge
+                    </td>
+                    <td class="dose">30 secs</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="col">
+          <div class="col-head">
+            <h2>Strength</h2>
+            <em>Day 1</em>
+          </div>
+          <div class="blocks">
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">1</span>
+                <h3>Ankle</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Time</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ex-video" data-yt="hh5516HCu4k">
+                      SL Smith Machine Standing Calf Raise
+                    </td>
+                    <td class="dose">10,8,6</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="E3xyZWHKNrc">
+                      Seated BB Calf Raise
+                    </td>
+                    <td class="dose">10,8,6</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">2</span>
+                <h3>Knee / Hip flexor</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ex-video" data-yt="m0FOpMEgero">
+                      Leg Extension
+                    </td>
+                    <td class="dose">10,8,6</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="hXpxnHwGnsY">
+                      Decline Garhammer Raise
+                    </td>
+                    <td class="dose">12-15 reps</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">3</span>
+                <h3>Hips</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ex-video" data-yt="JZ7ArhMEcHQ">
+                      Glute Med Kickback
+                    </td>
+                    <td class="dose">12-15</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="KADQgSFFfeM">B-Stance RDL</td>
+                    <td class="dose">10,8,6</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="JkLsqQ1TcAY">
+                      Bench Restricted Goblet Split Squat
+                    </td>
+                    <td class="dose">10,8,6</td>
+                    <td class="wt">—</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="block">
+              <div class="block-tag">
+                <span class="num">4</span>
+                <h3>Core : stronger core, stronger run</h3>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>%/WT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="ex-video" data-yt="BExrsmo8msw">Hip Taps</td>
+                    <td class="dose">8-12</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="k8SYg1K8WBc">
+                      High to Low Cable Chops
+                    </td>
+                    <td class="dose">8-12</td>
+                    <td class="wt">—</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="-0N2xTi69t8">
+                      Cable Pall off Press
+                    </td>
+                    <td class="dose">12 reps</td>
+                    <td class="wt">Per Side</td>
+                  </tr>
+                  <tr>
+                    <td class="ex-video" data-yt="fYgi9mk8t40">
+                      KB Suitcase March
+                    </td>
+                    <td class="dose">20-30 secs</td>
+                    <td class="wt">Each Side</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <span>SPRINZ Run Club High Performance</span>
+      <span class="stripe"><i></i><i></i><i></i></span>
+      <span id="footNote"></span>
+    </footer>
+
+    <div class="video-modal" id="videoModal" hidden>
+      <div class="video-modal-backdrop" data-act="closevideo"></div>
+      <div class="video-modal-body">
+        <button
+          class="video-modal-close"
+          data-act="closevideo"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <div class="video-modal-frame">
+          <iframe
+            id="videoFrame"
+            src=""
+            title="Exercise demo"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+            "
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        const $ = (s, r = document) => r.querySelector(s),
+          $$ = (s, r = document) => [...r.querySelectorAll(s)];
+        const nav = $("nav"),
+          main = $("main");
+        let cur = "1";
+
+        /* Logo: show the monogram only if the image file isn't there. */
+        const logo = $("#logo");
+        logo.addEventListener("error", () => {
+          logo.style.display = "none";
+        });
+
+        const tabs = () => $$(".tab", nav),
+          panels = () => $$(".day", main);
+        const tabOf = (d) => tabs().find((t) => t.dataset.day === d),
+          panelOf = (d) => panels().find((p) => p.dataset.day === d);
+
+        function chips() {
+          const t = tabOf(cur);
+          if (!t) return;
+          $("#dayDate").textContent = t.dataset.date || "—";
+          $("#dayFocus").textContent = t.dataset.focus || "—";
+          $("#footNote").textContent = t.dataset.foot || "";
+        }
+        function show(day) {
+          if (!tabOf(day)) {
+            const f = tabs()[0];
+            if (!f) return;
+            day = f.dataset.day;
+          }
+          cur = day;
+          tabs().forEach((t) =>
+            t.setAttribute("aria-selected", t.dataset.day === day),
+          );
+          panels().forEach((p) =>
+            p.classList.toggle("active", p.dataset.day === day),
+          );
+          chips();
+        }
+
+        /* ── Exercise demo videos (Gym Accessories) ── */
+        const videoModal = $("#videoModal"),
+          videoFrame = $("#videoFrame");
+        function openVideo(id) {
+          videoFrame.src =
+            "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0";
+          videoModal.hidden = false;
+        }
+        function closeVideo() {
+          videoModal.hidden = true;
+          videoFrame.src = "";
+        }
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !videoModal.hidden) closeVideo();
+        });
+
+        document.addEventListener("click", (e) => {
+          const ex = e.target.closest("td.ex-video");
+          if (ex) {
+            openVideo(ex.dataset.yt);
+            return;
+          }
+          if (e.target.closest('[data-act="closevideo"]')) {
+            closeVideo();
+            return;
+          }
+          const t = e.target.closest(".tab");
+          if (t && nav.contains(t)) show(t.dataset.day);
+        });
+
+        /* Keyboard: 1-9 jump to a session, arrows cycle */
+        document.addEventListener("keydown", (e) => {
+          if (
+            e.target.closest &&
+            e.target.closest("input,select,textarea,[contenteditable]")
+          )
+            return;
+          const i = parseInt(e.key, 10),
+            ts = tabs();
+          if (i >= 1 && i <= 9 && ts[i - 1]) show(ts[i - 1].dataset.day);
+          if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            const c = ts.findIndex(
+              (t) => t.getAttribute("aria-selected") === "true",
+            );
+            show(
+              ts[(c + (e.key === "ArrowRight" ? 1 : ts.length - 1)) % ts.length]
+                .dataset.day,
+            );
+          }
+        });
+
+        function tick() {
+          const n = new Date();
+          $("#clock").textContent = n.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          $("#clockDay").textContent = n.toLocaleDateString([], {
+            weekday: "long",
+          });
+        }
+        tick();
+        setInterval(tick, 10000);
+        show(tabs()[0].dataset.day);
+      })();
+    </script>
+  </body>
+</html>
